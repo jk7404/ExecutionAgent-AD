@@ -96,7 +96,7 @@ def create_config(
         config.fast_llm = GPT_4_MODEL
         config.smart_llm = GPT_4_MODEL
     else:
-        config.free_llm = check_model(config.free_llm, "free_llm", config=config)
+        #config.free_llm = check_model(config.free_llm, "free_llm", config=config)
         config.fast_llm = check_model(config.fast_llm, "fast_llm", config=config)
         config.smart_llm = check_model(config.smart_llm, "smart_llm", config=config)
 
