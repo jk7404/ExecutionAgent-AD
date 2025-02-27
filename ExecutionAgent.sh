@@ -55,7 +55,9 @@ run_with_retries() {
   done
 }
 
-# Parse command-line arguments
+file_path=""
+repo_url=""
+
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --repo)
@@ -67,6 +69,9 @@ while [[ $# -gt 0 ]]; do
       shift 2
       ;;
     *)
+      if [[ -z "$file_path" ]]; then
+        file_path="$1"  # Assume first unrecognized argument is a file path
+      fi
       shift
       ;;
   esac
@@ -107,9 +112,8 @@ if [[ -n "$repo_url" ]]; then
   # Run the main script with specific AI settings and experiment parameters
   run_with_retries "./run.sh --ai-settings ai_settings.yaml -c -l \"$num\" -m json_file --experiment-file \"project_meta_data.json\"" "$project_name"
 
-elif [[ -f "$repo_url" ]]; then
+elif [[ -f "$file_path" ]]; then
   # Handle the case where the input is a file containing multiple repositories
-  file_path="$repo_url"
   echo "Using file path: $file_path"  # Print the file path being processed
 
   # Read the file line by line
@@ -132,11 +136,7 @@ elif [[ -f "$repo_url" ]]; then
       # Run the main script with specific AI settings and experiment parameters
       run_with_retries "./run.sh --ai-settings ai_settings.yaml -c -l \"$num\" -m json_file --experiment-file \"project_meta_data.json\"" "$project_name"
   done < "$file_path"
-
 else
-  # Handle invalid input cases
   echo "Error: Invalid input. Provide a file path or use --repo <github_repo_url>."
-  echo "Usage: ./script_name.sh /path/to/file"
-  echo "       ./script_name.sh --repo <github_repo_url>"
   exit 1
 fi
