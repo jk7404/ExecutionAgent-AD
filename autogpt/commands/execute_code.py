@@ -306,7 +306,7 @@ def execute_shell(command: str, agent: Agent) -> str:
             cmd_result = read_file_from_container(agent.container, "/tmp/cmd_result")
         except Exception as e:
             print("ERROR HAPPENED WHILE TRYING TO READ RESULT FILE FROM CONTAINER--------", e)
-            cmd_result = ""
+            cmd_result = str(e)
         #print("----- OUTPUT ON SCREEN LEVEL: {}".format(cmd_result))
         cmd_result = textify_output(cmd_result)
         print("----- OUTPUT AFTER TEXTIFYING:", cmd_result)

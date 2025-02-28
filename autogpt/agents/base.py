@@ -520,8 +520,11 @@ class BaseAgent(metaclass=ABCMeta):
 
         ## added this part to change the prompt structure
 
-        steps_text = self.construct_executed_steps_text()
-         
+        if self.customize["GENERAL_GUIDELINES"]:
+            steps_text = self.construct_executed_steps_text()
+        else:
+            steps_text = "\n"
+
         prompt = ChatSequence.for_model(
             self.llm.name,
             [Message("system", self.prompt_dictionary["role"])])
@@ -558,8 +561,8 @@ class BaseAgent(metaclass=ABCMeta):
             definitions_prompt += "Here is the summary of the top 5 results:\n" + self.search_results + "\n"
         
         
-        if self.hyperparams["image"]!="NIL":
-            definitions_prompt += "For this particular project, the docker image have been already created and the container have been launched, you can skip steps 1 and 2; You can start directly from step 3 (see the steps list below).\n"
+        #if self.hyperparams["image"]!="NIL":
+        #    definitions_prompt += "For this particular project, the docker image have been already created and the container have been launched, you can #skip steps 1 and 2; You can start directly from step 3 (see the steps list below).\n"
         #definitions_prompt += steps_text + "\n"
         
         if len(self.history) > 2:
