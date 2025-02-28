@@ -37,6 +37,8 @@ def main():
         sys.exit(1)
 
     project_name = sys.argv[1]
+    print("HEEEEEEERE------------------")
+    print(project_name)
 
     # Read the last line of experiments_list.txt
     experiments_file = "experimental_setups/experiments_list.txt"
@@ -88,11 +90,8 @@ def main():
         sys.exit(1)
 
     # Prepare the query for ask_chatgpt
-    query = (
-        "the following would represent the sequence of commands and reasoning made by an LLM trying to install \"{}\" project from source code and execute test cases. "
-        "I want you to summarize the encountered problems and give advice for next attempt. Be precise and concise. Address the most important and critical issues (ignore non critical warnings and so). Your response should have one header: ### Feedback from previous installation attempts\n".format(project_name)
-        f"+ {extracted_content}"
-    )
+    query = "the following would represent the sequence of commands and reasoning made by an LLM trying to install \"{}\" project from source code and execute test cases. I want you to summarize the encountered problems and give advice for next attempt. Be precise and concise. Address the most important and critical issues (ignore non critical warnings and so). Your response should have one header: ### Feedback from previous installation attempts\n".format(project_name) + f" {extracted_content}"
+
     
     system_message = (
         "You are a helpful software engineering assistant with capabilities of installing, building, configuring, and testing software projects."
